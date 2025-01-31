@@ -1,4 +1,4 @@
----
+<!-- ---
 Деталі
 
 [Rasberry Pi Compute Module 4](https://www.raspberrypi.com/products/compute-module-4/?variant=raspberry-pi-cm4108032)
@@ -53,9 +53,7 @@ Various jumpers to disable specific features, e.g. wireless connectivity, EEPROM
 [SSD диск Transcend MTS420S 240GB M.2 2242 SATAIII 3D NAND TLC (TS240GMTS420S)](https://hard.rozetka.com.ua/ua/transcend-ts240gmts420s/p436737317/)
 
 ![alt text](imgs/image-5.png)
-
-
----
+--- -->
 
 
 # Деталі компонентів
