@@ -35,20 +35,14 @@ if missing_files:
 
 # Повний шлях до файлів
 files = [str(script_dir / file) for file in files]
-# Вихідні файли
-output_docx = script_dir / "out/document_dev.docx"
-output_pdf = script_dir / "out/document_dev.pdf"
 
-# Функція для виконання Pandoc
-def convert_to_format(output_file, format_name):
-    try:
-        subprocess.run(["pandoc", *files, "-o", str(output_file), "--pdf-engine=xelatex"], check=True)
-        print(f"Файл {output_file} успішно створено у форматі {format_name}!")
-    except subprocess.CalledProcessError as e:
-        print(f"Помилка під час створення {format_name}:", e)
 
-# Конвертація в DOCX
-convert_to_format(output_docx, "DOCX")
+print(f"Файли: {files}")
 
-# Конвертація в PDF
-convert_to_format(output_pdf, "PDF")
+for file in files:
+    with open(file, "r", encoding="utf-8") as f:
+        # пошук інтернет посилань 
+        # Формат: [Назва](http://example.com)
+        urls = re.findall(r"\[.*?\]\((https?://[^\s)]+)\)", f.read())
+        print(urls)
+
