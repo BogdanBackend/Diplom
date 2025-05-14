@@ -73,7 +73,7 @@ for file in files:
             # Додаємо URL до списку
             links.append(url)
             # Заміна URL на [номер]
-            content = content.replace(url, f"[{len(links)}]")
+            content = content.replace(url, f"{url.split("](")[0][1:]}[{len(links)}]")
         
         f_out.write('<div style="page-break-after: always;"></div>\n') # Додаємо розрив сторінки для Pandoc
         f_out.write(content)
