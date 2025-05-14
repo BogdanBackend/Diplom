@@ -1,6 +1,6 @@
 # TODO: Пофіксити кирилицю в pdf
 
-# sudo apt update && sudo apt install -y pandoc texlive texlive-latex-extra texlive-xetex
+# sudo apt update && sudo apt install -y pandoc texlive texlive-latex-extra texlive-xetex ttf-mscorefonts-installer
 import re
 import subprocess
 from pathlib import Path
@@ -40,15 +40,15 @@ output_docx = script_dir / "out/document_dev.docx"
 output_pdf = script_dir / "out/document_dev.pdf"
 
 # Функція для виконання Pandoc
-def convert_to_format(output_file, format_name):
+def convert_to_format(output_file):
     try:
-        subprocess.run(["pandoc", *files, "-o", str(output_file), "--pdf-engine=xelatex"], check=True)
-        print(f"Файл {output_file} успішно створено у форматі {format_name}!")
+        subprocess.run(["pandoc", *files, "-o", str(output_file), "--pdf-engine=xelatex", '-V mainfont="Times New Roman"'], check=True)
+        print(f"Файл {output_file} успішно створено!")
     except subprocess.CalledProcessError as e:
-        print(f"Помилка під час створення {format_name}:", e)
+        print(f"Помилка під час створення {output_file} :", e)
 
 # Конвертація в DOCX
-convert_to_format(output_docx, "DOCX")
+convert_to_format(output_docx)
 
 # Конвертація в PDF
-# convert_to_format(output_pdf, "PDF")
+convert_to_format(output_pdf)
