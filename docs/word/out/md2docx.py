@@ -51,4 +51,4 @@ def convert_to_format(output_file, format_name):
 convert_to_format(output_docx, "DOCX")
 
 # Конвертація в PDF
-convert_to_format(output_pdf, "PDF")
+# convert_to_format(output_pdf, "PDF")
