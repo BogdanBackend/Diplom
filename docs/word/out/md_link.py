@@ -52,11 +52,13 @@ def remove_temp_files(files):
     
     delete_file(script_dir / "links_temp.md")
 
-if len(sys.argv) > 1 and sys.argv[1] == "clear":
-    print("Видалення тимчасових файлів...")
-    remove_temp_files(files)
-    print("Тимчасові файли видалено.")
-    exit(0)
+if len(sys.argv) > 1:
+    if sys.argv[1] == "clear":
+        remove_temp_files(files)
+        print("Тимчасові файли видалено.")
+        exit(0)
+    print("Невірний аргумент. Використовуйте 'clear' для видалення тимчасових файлів.")
+    exit(1)
 
 links = []
 
@@ -82,6 +84,7 @@ links_file = script_dir / "links_temp.md"
 with open(links_file, "w", encoding="utf-8") as f:
     f.write('<div style="page-break-after: always;"></div>\n')
     f.write('# Список використаних джерел\n')
+    links.append("[Архів проєкту КПК](https://github.com/Bogd-an/Diplom)")
     for i, link in enumerate(links):
         # Додаємо URL до списку
        text = link.split("](")[0][1:]
