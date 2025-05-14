@@ -99,7 +99,7 @@ with open(links_file, "w", encoding="utf-8") as f:
 # Функція для виконання Pandoc
 def convert_to_format(output_file, files):
     try:
-        subprocess.run(["pandoc", *files, "-o", str(output_file), "--pdf-engine=xelatex", '-V mainfont="Times New Roman"'], check=True)
+        subprocess.run(["pandoc", "diplom_template.docx", *files, "-o", str(output_file),], check=True)
         print(f"Файл {output_file} успішно створено!")
     except subprocess.CalledProcessError as e:
         print(f"Помилка під час створення {output_file} :", e)
@@ -111,4 +111,4 @@ files_out.append(str(links_file))
 convert_to_format(output_docx, files_out)
 
 # Конвертація в PDF
-convert_to_format(output_pdf, files_out)
+# convert_to_format(output_pdf, files_out)
