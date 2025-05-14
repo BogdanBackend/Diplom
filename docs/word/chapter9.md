@@ -6,9 +6,12 @@
 
 ![alt text](imgs/Solid/Box.png)
 
+
 ### Захисна кришка з органічного скла
 
 ![alt text](imgs/Solid/Top.png)
+
+![alt text](imgs/Solid/BoxDraw.svg)
 
 ## Симуляція навантаження
 
