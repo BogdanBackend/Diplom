@@ -53,6 +53,7 @@ def remove_temp_files(files):
     delete_file(script_dir / "links_temp.md")
 
 if len(sys.argv) > 1 and sys.argv[1] == "clear":
+    print("Видалення тимчасових файлів...")
     remove_temp_files(files)
     print("Тимчасові файли видалено.")
     exit(0)
@@ -62,38 +63,28 @@ links = []
 for file in files:
     file_temp = get_file_temp_name(file)
     with open(file, "r", encoding="utf-8") as f_in, open(file_temp, "w", encoding="utf-8") as f_out:
-        f_in_content = f_in.read()
-        f_out_content = f_in_content
+        content = f_in.read()
         # Пошук інтернет посилань
         # Формат: [Назва](http://example.com) або [Назва](https://example.com)
         # Заміна їх на [1]або [2] і так далі по номеру в списку links
-        # Знаходимо всі markdown-посилання на http/https
-        urls = re.findall(r"\[.*?\]\(https?://[^\s)]+\)", f_in_content)
-        print('urls', urls)
-        for i, url in enumerate(urls):
+        for url in re.findall(r"\[.*?\]\(https?://[^\s)]+\)", content):
             # Додаємо URL до списку
             links.append(url)
             # Заміна URL на [номер]
-            f_out_content = f_out_content.replace(url, f"[{i + 1}]")
-        f_out.write(f_out_content)
+            content = content.replace(url, f"[{len(links)}]")
+        
+        f_out.write('<div style="page-break-after: always;"></div>\n') # Додаємо розрив сторінки для Pandoc
+        f_out.write(content)
 
 # Збереження списку посилань у файл
 links_file = script_dir / "links_temp.md"
 
 with open(links_file, "w", encoding="utf-8") as f:
+    f.write('<div style="page-break-after: always;"></div>\n')
+    f.write('# Список використаних джерел\n')
     for i, link in enumerate(links):
         # Додаємо URL до списку
-        f.write(f"[{i + 1}] {link}\n")
-
-    # with open(file, "r", encoding="utf-8") as f:
-    #     with open(file, "w", encoding="utf-8") as f_out:
-            
-
-# for file in files:
-#     with open(file, "r", encoding="utf-8") as f:
-#         # пошук інтернет посилань 
-
-#         # Формат: [Назва](http://example.com)
-#         urls = re.findall(r"\[.*?\]\((https?://[^\s)]+)\)", f.read())
-#         print(urls)
+       text = link.split("](")[0][1:]
+       url = link.split("](")[1][:-1]
+       f.write(f"[{i + 1}] {text}, [Електронний ресурс] URL: {url} (дата звернення: 01.05.2025)\n")
 
