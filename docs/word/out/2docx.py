@@ -39,6 +39,8 @@ def extract_md_files(path: Path) -> list:
     if not files:
         print("У README.md не знайдено посилань на файли Markdown!", file=sys.stderr)
         sys.exit(1)
+    # Прибирання згадок .docx файлів
+    files = [file for file in files if not file.endswith(".docx")]
     return files
 
 # === Перевірка наявності файлів ===
