@@ -1,12 +1,12 @@
 #  Принципова схема
 
-![alt text](imgs/image-6.png)
+![3Д вигляд друкованої плати](imgs/image-6.png)
 
-![alt text](imgs/image-7.png)
+![USB](imgs/image-7.png)
 
-![alt text](imgs/image-8.png)
+![M2](imgs/image-8.png)
 
-![alt text](imgs/image-10.png)
+![Video Out](imgs/image-10.png)
 
 
-![alt text](imgs/image-11.png)
+![Conectors(imgs/image-11.png)
