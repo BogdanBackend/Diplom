@@ -1,4 +1,4 @@
-# sudo apt update && sudo apt install -y pandoc unoconv
+# sudo apt update && sudo apt install -y pandoc && pip install python-docx
 
 import re
 import subprocess
@@ -160,11 +160,3 @@ except Exception as e:
 if len(sys.argv) == 1:
     remove_temp_files(files)
     exit(0)
-
-try:
-    # Конвертація в PDF
-    subprocess.run(["unoconv", "-f", "pdf", str(out_docx)], check=True)
-    print(f"Файл {out_docx.with_suffix('.pdf')} успішно створено!")
-except subprocess.CalledProcessError as e:
-    print(f"Помилка під час створення PDF-файлу:", e)
-    exit(1)

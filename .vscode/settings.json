@@ -1,5 +1,7 @@
 {
     "markdown.copyFiles.destination": {
 		"**/*": "imgs/"
-	  }
+	  },
+	  "editor.minimap.enabled": false
+
 }
