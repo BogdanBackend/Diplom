@@ -1,0 +1,14 @@
+{
+    "Title": "Times New Roman, 14pt, Bold, Centered",
+    "Heading 1": "Times New Roman, 14pt, Bold",
+    "Heading 2": "Times New Roman, 14pt, Bold",
+    "Normal": "Times New Roman, 14pt, Line spacing 1.5",
+    "Body Text": "Times New Roman, 14pt",
+    "Block Quote": "Times New Roman, 14pt, Italic",
+    "Code": "Courier New, 11pt",
+    "Figure": "Times New Roman, 12pt, Italic, Centered",
+    "Image Caption": "Times New Roman, 12pt, Italic, Centered",
+    "Table Caption": "Times New Roman, 12pt, Italic, Centered",
+    "Bibliography": "Times New Roman, 14pt",
+    "Default Paragraph Font": "Times New Roman, 14pt"
+}
