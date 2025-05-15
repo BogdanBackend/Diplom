@@ -2,4 +2,4 @@
 
 На тему "КПК"
 
-[PDF файл](docs/word/docx/output.pdf)
+[DOC файл роздлів](docs/word/out/doc_dev.docx)
