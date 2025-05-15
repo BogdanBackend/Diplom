@@ -18,23 +18,23 @@
 
 ### Навантеження зверху на захисне органічне скло екрану
 
-![Симуляція 1.1](<imgs/Solid/Static_1 (1).png>)
+![Симуляція 1.1](imgs/Solid/Static_1_1.png)
 
-![Симуляція 1.2](<imgs/Solid/Static_1 (2).png>)
+![Симуляція 1.2](imgs/Solid/Static_1_2.png)
 
-![Симуляція 1.3](<imgs/Solid/Static_1 (3).png>)
-
-### Бічне навантаження
-
-![Симуляція 2.1](<imgs/Solid/Static_2 (1).png>)
-
-![Симуляція 2.2](<imgs/Solid/Static_2 (2).png>)
+![Симуляція 1.3](imgs/Solid/Static_1_3.png)
 
 ### Бічне навантаження
 
-![Симуляція 3.1](<imgs/Solid/Static_3 (1).png>)
+![Симуляція 2.1](imgs/Solid/Static_2_1.png)
 
-![Симуляція 3.2](<imgs/Solid/Static_3 (2).png>)
+![Симуляція 2.2](imgs/Solid/Static_2_2.png)
 
-![Симуляція 3.3](<imgs/Solid/Static_3 (3).png>)
+### Бічне навантаження
+
+![Симуляція 3.1](imgs/Solid/Static_3_1.png)
+
+![Симуляція 3.2](imgs/Solid/Static_3_2.png)
+
+![Симуляція 3.3](imgs/Solid/Static_3_3.png)
 

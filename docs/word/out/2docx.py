@@ -3,6 +3,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+import hashlib
 
 # === Константи ===
 TEMPLATE_DOCX = "template.docx"
@@ -20,8 +21,8 @@ DEBUG = False
 
 # === Константи для форматування ===
 NEW_PAGE = '```{=openxml}\n<w:p>\n  <w:r>\n    <w:br w:type="page"/>\n  </w:r>\n</w:p>\n```\n\n'
-center_xml = '```{=openxml}\n<w:p><w:pPr><w:jc w:val="center"/></w:pPr></w:p>\n```\n'
-
+CENTER_XML = '```{=openxml}\n<w:p><w:pPr><w:jc w:val="center"/></w:pPr></w:p>\n```\n'
+IMG_WIDHT = 8.0
 # === Парсинг аргументів ===
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -67,15 +68,52 @@ def remove_temp_files(files):
     delete_file(script_dir / "links_temp.md")
 
 # === Парсинг посилань ===
+import re
+
+import re
+
 def replace_links(content: str, links: list) -> str:
-    matches = re.findall(r"\[.*?\]\(https?://[^\s)]+\)", content)
-    for url in matches:
-        # Витягуємо текст посилання (опис)
-        text = re.search(r"\[(.*?)\]", url).group(1)
-        links.append(url)
-        content = content.replace(url, f"{text}[{len(links)}]")
-        
-    return content
+    # >>> посилання -> [0]
+    # [text](url) посилання -> [1]
+    pattern = re.compile(
+        r'(?P<arrow>(^|\n)>>>\s*(?P<text1>[^\n]+))'
+        r'|(?P<md>\[(?P<text2>[^\]]+)\]\((?P<url>https?://[^\s\)]+)\))',
+        re.MULTILINE
+    )
+
+    result = []
+    last_pos = 0
+
+    for match in pattern.finditer(content):
+        start, end = match.span()
+        result.append(content[last_pos:start])
+
+        if match.group('arrow'):
+            text = match.group('text1').strip()
+            entry = (">>>", text)
+            if entry not in links:
+                links.append(entry)
+            index = links.index(entry)
+            # Додаємо \n лише якщо було захоплено \n на початку
+            if match.group(2) == '\n':
+                result.append('\n')
+            result.append(f"[{index}]")
+
+        elif match.group('md'):
+            text = match.group('text2')
+            url = match.group('url')
+            entry = (text, url)
+            if entry not in links:
+                links.append(entry)
+            index = links.index(entry)
+            result.append(f"{text}[{index}]")
+
+        last_pos = end
+
+    result.append(content[last_pos:])
+    return ''.join(result)
+
+
 
 # === Парсинг зображень з шириною і вирівнюванням ===
 def replace_images(content: str, file_i: int) -> str:
@@ -85,8 +123,7 @@ def replace_images(content: str, file_i: int) -> str:
         img_index = len(re.findall(r"!\[.*?\]", content))
         # OpenXML блок для центрування (перед зображенням)
         # Повна конструкція з вирівнюванням і фіксованою шириною
-        return f"{center_xml}![Рис {file_i+1}.{img_index+1}. {desc}]({new_path}){{ width=12cm }}"
-
+        return f"![Рис {file_i+1}.{img_index+1}. {desc}]({new_path}){{ width={IMG_WIDHT}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
 
@@ -105,18 +142,23 @@ def process_markdown_files(files: list[Path], links: list) -> list:
         processed.append(temp_file)
     return processed
 
-# === Генерація списку джерел ===
+
 def generate_link_list(links: list) -> Path:
-    if not links:
-        return None
-    links.append("[Архів проєкту КПК](https://github.com/Bogd-an/Diplom)")
+    if not links: return None
+    # Додаємо посилання на архів проєкту у форматі Markdown
+    links.append(("Архів проєкту КПК","https://github.com/Bogd-an/Diplom"))
     out = script_dir / "links_temp.md"
     with out.open("w", encoding="utf-8") as f:
         f.write(NEW_PAGE)
         f.write("# Список використаних джерел\n")
         for i, link in enumerate(links):
-            text, url = link.split("](\")[0][1:]"), link.split("](\")[1][:-1]")
-            f.write(f"[{i+1}] {text}, [Електронний ресурс] URL: {url} (дата звернення: 01.05.2025)\n\n")
+            text, url = link
+            # Визначаємо текст опису
+            if '>>>' in text:
+                f.write(f"[{i+1}] {url}\n\n")
+            else:
+                # Для http-посилань просто текст — сам URL
+                f.write(f"[{i+1}] {text}, [Електронний ресурс] URL: {url} \n\n")
     return out
 
 # === Виклик Pandoc ===
