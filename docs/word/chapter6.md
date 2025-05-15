@@ -9,4 +9,4 @@
 ![Video Out](imgs/image-10.png)
 
 
-![Conectors(imgs/image-11.png)
+![Conectors](imgs/image-11.png)
