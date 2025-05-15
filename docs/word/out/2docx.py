@@ -6,16 +6,21 @@ from pathlib import Path
 
 # === Константи ===
 TEMPLATE_DOCX = "template.docx"
-OUT_DOCX = "diplom_dev.docx"
-NEW_PAGE = '```{=openxml}\n<w:p>\n  <w:r>\n    <w:br w:type="page"/>\n  </w:r>\n</w:p>\n```\n\n'
-DEBUG = False
+# OUT_DOCX = "diplom_dev.docx"
 
 # === Шляхи ===
 script_dir = Path(__file__).parent.parent.resolve()
 readme_path = script_dir / "README.md"
 template_docx = script_dir / "out" / "template" / TEMPLATE_DOCX
-out_docx = script_dir / "out" / OUT_DOCX
-ms2docx = script_dir / "out" / "md2doc_dev.docx"
+# out_docx = script_dir / "out" / OUT_DOCX
+ms2docx = script_dir / "out" / "doc_dev.docx"
+
+# === Параметри ===
+DEBUG = False
+
+# === Константи для форматування ===
+NEW_PAGE = '```{=openxml}\n<w:p>\n  <w:r>\n    <w:br w:type="page"/>\n  </w:r>\n</w:p>\n```\n\n'
+center_xml = '```{=openxml}\n<w:p><w:pPr><w:jc w:val="center"/></w:pPr></w:p>\n```\n'
 
 # === Парсинг аргументів ===
 def parse_args():
@@ -77,7 +82,6 @@ def replace_images(content: str, file_i: int) -> str:
         new_path = script_dir / path
         img_index = len(re.findall(r"!\[.*?\]", content))
         # OpenXML блок для центрування (перед зображенням)
-        center_xml = '```{=openxml}\n<w:p><w:pPr><w:jc w:val="center"/></w:pPr></w:p>\n```\n'
         # Повна конструкція з вирівнюванням і фіксованою шириною
         return f"{center_xml}![Рис {file_i+1}.{img_index+1}. {desc}]({new_path}){{ width=12cm }}"
 
