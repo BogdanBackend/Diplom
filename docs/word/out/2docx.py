@@ -42,6 +42,7 @@ def extract_md_files(path: Path) -> list:
         sys.exit(1)
     # Прибирання згадок .docx файлів
     files = [file for file in files if not file.endswith(".docx")]
+    files = [file for file in files if not '.pdf' in str(file)]
     return files
 
 # === Перевірка наявності файлів ===
@@ -68,10 +69,6 @@ def remove_temp_files(files):
     delete_file(script_dir / "links_temp.md")
 
 # === Парсинг посилань ===
-import re
-
-import re
-
 def replace_links(content: str, links: list) -> str:
     # >>> посилання -> [0]
     # [text](url) посилання -> [1]
