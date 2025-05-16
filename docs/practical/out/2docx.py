@@ -117,6 +117,7 @@ def replace_images(content: str, file_i: int) -> str:
     def replacer(match):
         desc, path = match.groups()
         new_path = script_dir / path
+        # TDOD: зламались індекси зображень
         img_index = len(re.findall(r"!\[.*?\]", content))
         # OpenXML блок для центрування (перед зображенням)
         # Повна конструкція з вирівнюванням і фіксованою шириною
