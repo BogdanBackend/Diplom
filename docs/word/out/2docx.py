@@ -94,7 +94,7 @@ def replace_links(content: str, links: list) -> str:
             # Додаємо \n лише якщо було захоплено \n на початку
             if match.group(2) == '\n':
                 result.append('\n')
-            result.append(f"[{index}]")
+            result.append(f"[{index+1}]")
 
         elif match.group('md'):
             text = match.group('text2')
@@ -103,7 +103,7 @@ def replace_links(content: str, links: list) -> str:
             if entry not in links:
                 links.append(entry)
             index = links.index(entry)
-            result.append(f"{text}[{index}]")
+            result.append(f"{text}[{index+1}]")
 
         last_pos = end
 
@@ -114,13 +114,15 @@ def replace_links(content: str, links: list) -> str:
 
 # === Парсинг зображень з шириною і вирівнюванням ===
 def replace_images(content: str, file_i: int) -> str:
+    img_index = 0
     def replacer(match):
+        nonlocal img_index
+        img_index += 1
         desc, path = match.groups()
         new_path = script_dir / path
-        img_index = len(re.findall(r"!\[.*?\]", content))
         # OpenXML блок для центрування (перед зображенням)
         # Повна конструкція з вирівнюванням і фіксованою шириною
-        return f"![Рис {file_i+1}.{img_index+1}. {desc}]({new_path}){{ width={IMG_WIDHT}cm }}"
+        return f"![Рис {file_i+1}.{img_index}. {desc}]({new_path}){{ width={IMG_WIDHT}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
 
