@@ -134,7 +134,7 @@ def process_markdown_files(files: list[Path], links: list) -> list:
         content = replace_links(content, links)
         content = replace_images(content, i)
         with temp_file.open("w", encoding="utf-8") as f_out:
-            f_out.write(NEW_PAGE)
+            # f_out.write(NEW_PAGE)
             f_out.write(content)
         processed.append(temp_file)
     return processed
@@ -146,7 +146,7 @@ def generate_link_list(links: list) -> Path:
     links.append(("Архів проєкту КПК","https://github.com/Bogd-an/Diplom"))
     out = script_dir / "links_temp.md"
     with out.open("w", encoding="utf-8") as f:
-        f.write(NEW_PAGE)
+        # f.write(NEW_PAGE)
         f.write("# Список використаних джерел\n")
         for i, link in enumerate(links):
             text, url = link
