@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "mathematic.vscode-pdf",
-        "ms-python.python"
+        "ms-python.python",
+        "hediet.vscode-drawio"
     ]
 }

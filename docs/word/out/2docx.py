@@ -23,6 +23,10 @@ DEBUG = False
 NEW_PAGE = '```{=openxml}\n<w:p>\n  <w:r>\n    <w:br w:type="page"/>\n  </w:r>\n</w:p>\n```\n\n'
 CENTER_XML = '```{=openxml}\n<w:p><w:pPr><w:jc w:val="center"/></w:pPr></w:p>\n```\n'
 IMG_WIDHT = 8.0
+
+def TABLE_CAPTION_XML(caption: str) -> str:
+    return f'\n```{{=openxml}}\n<w:p>\n  <w:pPr>\n    <w:pStyle w:val="Table Caption"/>\n  </w:pPr>\n  <w:r>\n    <w:t>{caption}</w:t>\n  </w:r>\n</w:p>\n```\n\n'
+
 # === Парсинг аргументів ===
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -115,14 +119,23 @@ def replace_links(content: str, links: list) -> str:
 # === Парсинг зображень з шириною і вирівнюванням ===
 def replace_images(content: str, file_i: int) -> str:
     img_index = 0
+    table_index = 0
     def replacer(match):
-        nonlocal img_index
-        img_index += 1
+        nonlocal img_index, table_index
         desc, path = match.groups()
         new_path = script_dir / path
         # OpenXML блок для центрування (перед зображенням)
         # Повна конструкція з вирівнюванням і фіксованою шириною
-        return f"![Рис {file_i+1}.{img_index}. {desc}]({new_path}){{ width={IMG_WIDHT}cm }}"
+        if 'Table:' in desc:
+            table_index += 1
+            img_index -= 1
+            desc = desc.split('Table:')[1].strip()
+            desc = f"Табл {file_i+1}.{table_index}. {desc}"
+            return f'{TABLE_CAPTION_XML(desc)}<div style="text-align: center;">![]({new_path}){{ width={IMG_WIDHT}cm }}</div>'
+        else:
+            img_index += 1
+            desc = f"Рис {file_i+1}.{img_index}. {desc}"
+            return f"![{desc}]({new_path}){{ width={IMG_WIDHT}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
 
