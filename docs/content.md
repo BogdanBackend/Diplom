@@ -1,4 +1,4 @@
-[text](chapter3.md)
+[text](0.md)
 [text](ch1.md)
 [text](ch2.md)
 [text](ch3.1.md)
