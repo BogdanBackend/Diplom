@@ -160,7 +160,7 @@ def process_markdown_files(files: list[Path], links: list) -> list:
             content = f_in.read()
         content = replace_links(content, links)
         content = replace_images(content, i)
-        content = format_headers(content)  # <--- Додаємо цю строку
+        # content = format_headers(content)  # <--- Додаємо цю строку
         with temp_file.open("w", encoding="utf-8") as f_out:
             f_out.write(NEW_PAGE)
             f_out.write(content)
@@ -245,7 +245,7 @@ def update_readme_with_toc(md_paths: list[Path], readme_path: Path):
                     for i in range(header_level, len(levels)):
                         levels[i] = 0
                     num = ".".join(str(levels[i]) for i in range(header_level) if levels[i] > 0)
-                    indent = " " * (header_level - 1)
+                    indent = " " * (header_level - 2)
                     toc_lines.append(f"\n{indent} {'#'*header_level} [{num} {header_text}][{ref_key}]")
                     ref_counter += 1
 
