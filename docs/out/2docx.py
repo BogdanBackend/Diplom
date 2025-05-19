@@ -208,7 +208,11 @@ def convert_to_docx(input_files: list[Path], output: Path):
     print(f"Файл {output} успішно створено!")
 
 def update_readme_with_toc(md_paths: list[Path], readme_path: Path):
-    toc_lines = ["Зміст:\n"]
+    toc_lines = [
+                 '[Завантажити DOCX](https://github.com/Bogd-an/Diplom/raw/refs/heads/main/docs/out/doc_dev.docx)\n',
+                 '[Github](https://github.com/Bogd-an/Diplom/blob/main/docs/README.md)\n',
+                 "---\n",
+                 "Зміст:\n"]
     ref_dict = {}
     ref_counter = 1
     levels = [0] * 6  # до 6 рівнів

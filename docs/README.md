@@ -1,3 +1,9 @@
+[Завантажити DOCX](https://github.com/Bogd-an/Diplom/raw/refs/heads/main/docs/out/doc_dev.docx)
+
+[Github](https://github.com/Bogd-an/Diplom/blob/main/docs/README.md)
+
+---
+
 Зміст:
 
 
