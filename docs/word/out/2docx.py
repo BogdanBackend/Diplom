@@ -11,6 +11,7 @@ TEMPLATE_DOCX = "template.docx"
 
 # === Шляхи ===
 script_dir = Path(__file__).parent.parent.resolve()
+content_path = script_dir / "content.md"
 readme_path = script_dir / "README.md"
 template_docx = script_dir / "out" / "template" / TEMPLATE_DOCX
 # out_docx = script_dir / "out" / OUT_DOCX
@@ -138,6 +139,17 @@ def replace_images(content: str, file_i: int) -> str:
             return f"![{desc}]({new_path}){{ width={IMG_WIDHT}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
+def format_headers(content: str) -> str:
+    def repl(match):
+        hashes = match.group(1)
+        text = match.group(2).strip()
+        # Перевіряємо чи вже жирний і великими
+        if text.startswith("**") and text.endswith("**") and text[2:-2].isupper():
+            return match.group(0)
+        # Робимо великими і жирними
+        return f"{hashes} **{text.upper()}**"
+    # Замінюємо лише якщо не закоментовано
+    return re.sub(r'^(#{1,6})\s+([^\n]+)$', repl, content, flags=re.MULTILINE)
 
 # === Обробка markdown-файлів ===
 def process_markdown_files(files: list[Path], links: list) -> list:
@@ -148,6 +160,7 @@ def process_markdown_files(files: list[Path], links: list) -> list:
             content = f_in.read()
         content = replace_links(content, links)
         content = replace_images(content, i)
+        content = format_headers(content)  # <--- Додаємо цю строку
         with temp_file.open("w", encoding="utf-8") as f_out:
             f_out.write(NEW_PAGE)
             f_out.write(content)
@@ -194,6 +207,51 @@ def convert_to_docx(input_files: list[Path], output: Path):
         raise subprocess.CalledProcessError(result.returncode, cmd)
     print(f"Файл {output} успішно створено!")
 
+def update_readme_with_toc(md_paths: list[Path], readme_path: Path):
+    toc_lines = ["Зміст:\n"]
+    ref_dict = {}
+    ref_counter = 1
+    levels = [0] * 6  # до 6 рівнів
+
+    for md_file in md_paths:
+        with md_file.open("r", encoding="utf-8") as f:
+            inside_comment = False
+            for line in f:
+                # Визначаємо, чи ми всередині коментаря
+                if "<!--" in line:
+                    inside_comment = True
+                if "-->" in line:
+                    inside_comment = False
+                    continue
+                if inside_comment:
+                    continue
+                # Пропускаємо закоментовані заголовки
+                if line.strip().startswith("<!--") or line.strip().endswith("-->"):
+                    continue
+                if line.startswith("#"):
+                    header_level = len(line) - len(line.lstrip("#"))
+                    header_text = line.strip("#").strip()
+                    anchor = header_text.lower().replace(" ", "-")
+                    header_text = header_text.replace("**", "")
+                    ref_key = f"ref{ref_counter}"
+                    ref_url = f"{md_file.name}#{anchor}"
+                    ref_dict[ref_key] = ref_url
+
+                    levels[header_level - 1] += 1
+                    for i in range(header_level, len(levels)):
+                        levels[i] = 0
+                    num = ".".join(str(levels[i]) for i in range(header_level) if levels[i] > 0)
+                    indent = " " * (header_level - 1)
+                    toc_lines.append(f"{indent} {'#'*header_level} [{num} {header_text}][{ref_key}]")
+                    ref_counter += 1
+
+    toc_lines.append("\n<!-- Links -->")
+    for key, url in ref_dict.items():
+        toc_lines.append(f"[{key}]: {url}")
+
+    with readme_path.open("w", encoding="utf-8") as f:
+        f.write("\n".join(toc_lines) + "\n")
+
 # === Основна функція ===
 def main():
     args = parse_args()
@@ -202,7 +260,7 @@ def main():
         DEBUG = True
         print("DEBUG mode is ON")
     
-    md_files = extract_md_files(readme_path)
+    md_files = extract_md_files(content_path)
     md_paths = validate_files(md_files)
 
     if args.mode == "clear":
@@ -216,6 +274,9 @@ def main():
     links_file = generate_link_list(links)
     if links_file:
         temp_files.append(links_file)
+
+    # ОНОВЛЕННЯ README.md ЗІ ЗМІСТОМ
+    update_readme_with_toc(md_paths, readme_path)
 
     try:
         convert_to_docx(temp_files, ms2docx)
