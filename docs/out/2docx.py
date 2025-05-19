@@ -242,7 +242,7 @@ def update_readme_with_toc(md_paths: list[Path], readme_path: Path):
                         levels[i] = 0
                     num = ".".join(str(levels[i]) for i in range(header_level) if levels[i] > 0)
                     indent = " " * (header_level - 1)
-                    toc_lines.append(f"{indent} {'#'*header_level} [{num} {header_text}][{ref_key}]")
+                    toc_lines.append(f"\n{indent} {'#'*header_level} [{num} {header_text}][{ref_key}]")
                     ref_counter += 1
 
     toc_lines.append("\n<!-- Links -->")
