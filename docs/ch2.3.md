@@ -1,15 +1,15 @@
 ## Розробка принципової електричної схеми
 
-![3Д вигляд друкованої плати](imgs/image-6.png)
+![3Д вигляд друкованої плати w=20](imgs/image-6.png)
 
-![USB](imgs/image-7.png)
+![USB w=20](imgs/image-7.png)
 
-![M2](imgs/image-8.png)
+![M2 w=20](imgs/image-8.png)
 
-![Video Out](imgs/image-10.png)
+![Video Out w=20](imgs/image-10.png)
 
 
-![Conectors](imgs/image-11.png)
+![Conectors w=20](imgs/image-11.png)
 
 Висновок по розділу  2.3
 

@@ -1,3 +1,14 @@
+'''
+посилання:
+
+[Текст](посилання) -> Текст[0]
+[Текст !](посилання) -> [1]
+>>> ЯКАСЬ СТАТТЯ -> [2]
+![підпис](посилання) -> рисунок по центру з підписом і нумерацією 
+![підпис w=15](посилання) -> те саме але з шириною 15 см
+![Table: підпис](посилання) -> таблиця по центру з підписом і нумерацією
+'''
+
 import argparse
 import re
 import subprocess
@@ -104,11 +115,19 @@ def replace_links(content: str, links: list) -> str:
         elif match.group('md'):
             text = match.group('text2')
             url = match.group('url')
+
+            # якщо в кінці [ !] то приховати текст в content
+            needHideText = text.endswith(' !')
+            if needHideText:
+                text = text[:-2].strip()
             entry = (text, url)
             if entry not in links:
                 links.append(entry)
             index = links.index(entry)
-            result.append(f"{text}[{index+1}]")
+            if needHideText:
+                result.append(f"[{index+1}]")
+            else:
+                result.append(f"{text}[{index+1}]")
 
         last_pos = end
 
@@ -127,16 +146,22 @@ def replace_images(content: str, file_i: int) -> str:
         new_path = script_dir / path
         # OpenXML блок для центрування (перед зображенням)
         # Повна конструкція з вирівнюванням і фіксованою шириною
+        img_width = IMG_WIDHT
+        # Рис 1.1. Hack w=20 зберегти 20 в img_width і викинути з desc w=20 
+        width_match = re.search(r'w=(\d+)', desc)
+        if width_match:
+            img_width = width_match.group(1) + '.0'
+            desc = re.sub(r'\s*w=\d+', '', desc).strip()
         if 'Table:' in desc:
             table_index += 1
             img_index -= 1
             desc = desc.split('Table:')[1].strip()
             desc = f"Табл {file_i+1}.{table_index}. {desc}"
-            return f'{TABLE_CAPTION_XML(desc)}<div style="text-align: center;">![]({new_path}){{ width={IMG_WIDHT}cm }}</div>'
+            return f'{TABLE_CAPTION_XML(desc)}<div style="text-align: center;">![]({new_path}){{ width={img_width}cm }}</div>'
         else:
-            img_index += 1
+            img_index += 1             
             desc = f"Рис {file_i+1}.{img_index}. {desc}"
-            return f"![{desc}]({new_path}){{ width={IMG_WIDHT}cm }}"
+            return f"![{desc}]({new_path}){{ width={img_width}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
 def format_headers(content: str) -> str:
