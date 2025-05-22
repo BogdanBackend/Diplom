@@ -156,11 +156,11 @@ def replace_images(content: str, file_i: int) -> str:
             table_index += 1
             img_index -= 1
             desc = desc.split('Table:')[1].strip()
-            desc = f"Табл {file_i+1}.{table_index}. {desc}"
+            desc = f"Табл {file_i}.{table_index}. {desc}"
             return f'{TABLE_CAPTION_XML(desc)}<div style="text-align: center;">![]({new_path}){{ width={img_width}cm }}</div>'
         else:
             img_index += 1             
-            desc = f"Рис {file_i+1}.{img_index}. {desc}"
+            desc = f"Рис {file_i}.{img_index}. {desc}"
             return f"![{desc}]({new_path}){{ width={img_width}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
@@ -184,10 +184,18 @@ def process_markdown_files(files: list[Path], links: list) -> list:
         with file.open("r", encoding="utf-8") as f_in:
             content = f_in.read()
         content = replace_links(content, links)
-        content = replace_images(content, i)
+        # file_index має отримуватись з назви файлу напркилад: ch1.md -> 1 ch2.1.md -> 2.1
+        # Витягуємо file_index з назви файлу, наприклад ch1.md -> 1, ch2.1.md -> 2.1
+        stem = file.stem
+        match = re.search(r'ch([\d\.]+)', stem)
+        file_index = match.group(1) if match else str(i + 1)
+        content = replace_images(content, file_index)
         # content = format_headers(content)  # <--- Додаємо цю строку
         with temp_file.open("w", encoding="utf-8") as f_out:
-            f_out.write(NEW_PAGE)
+            # Додаємо NEW_PAGE лише якщо перший рядок починається з одного #
+            first_line = content.lstrip().splitlines()[0] if content.lstrip().splitlines() else ""
+            if first_line.startswith("# ") and not first_line.startswith("##"):
+                f_out.write(NEW_PAGE)
             f_out.write(content)
         processed.append(temp_file)
     return processed
