@@ -156,11 +156,11 @@ def replace_images(content: str, file_i: int) -> str:
             table_index += 1
             img_index -= 1
             desc = desc.split('Table:')[1].strip()
-            desc = f"Табл {file_i}.{table_index}. {desc}"
+            desc = f"Табл.{file_i}.{table_index}. {desc}."
             return f'{TABLE_CAPTION_XML(desc)}<div style="text-align: center;">![]({new_path}){{ width={img_width}cm }}</div>'
         else:
             img_index += 1             
-            desc = f"Рис {file_i}.{img_index}. {desc}"
+            desc = f"Рис.{file_i}.{img_index}. {desc}."
             return f"![{desc}]({new_path}){{ width={img_width}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
@@ -208,7 +208,7 @@ def generate_link_list(links: list) -> Path:
     out = script_dir / "links_temp.md"
     with out.open("w", encoding="utf-8") as f:
         f.write(NEW_PAGE)
-        f.write("# Список використаних джерел\n")
+        f.write("# **СПИСОК ВИКОРИСТАНИХ ДЖЕРЕЛ**\n")
         for i, link in enumerate(links):
             text, url = link
             # Визначаємо текст опису
@@ -216,7 +216,7 @@ def generate_link_list(links: list) -> Path:
                 f.write(f"[{i+1}] {url}\n\n")
             else:
                 # Для http-посилань просто текст — сам URL
-                f.write(f"[{i+1}] {text}, [Електронний ресурс] URL: {url} \n\n")
+                f.write(f"[{i+1}] {text}, [Електронний ресурс] URL: {url} (дата звернення: 10.05.2024)\n\n")
     return out
 
 # === Виклик Pandoc ===

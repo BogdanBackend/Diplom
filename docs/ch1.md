@@ -25,7 +25,7 @@ SDR-комплекси дозволяють здійснювати прийом,
 ### Радіостанція Hack RF One Portapack H4 Mayhem SDR 1 МГц – 6 ГГц.
 
 Прилад HackRF One із PortaPack H4 із прошивкою Mayhem — це багатофункціональна портативна SDR-платформа, призначена для прийому, передачі й аналізу радіосигналів у широкому діапазоні частот. Пристрій базується на відкритих програмних рішеннях і може використовуватися для моніторингу мобільних мереж, дослідження бездротових стандартів, налаштування радіочастот, тестування захищеності бездротових систем та інших завдань
-[HackRF One !](https://fd24.com.ua/ua/p1044872164-sdr-radiostantsiya-antennami.html?source=merchant_center&gad_source=1&gad_campaignid=16695681573&gbraid=0AAAAACqF10_-rY4lJZlaJmtpxI3HFCwSQ&gclid=CjwKCAjw56DBBhAkEiwAaFsG-tMrTVbThssU7Zpa5kQyvDk9m0I4ZMkaidrQvP96XgwxpQHuhkZQ7RoCglAQAvD_BwE).
+[HackRF One !](https://fd24.com.ua/ua/p1044872164-sdr-radiostantsiya-antennami.html).
 
 ![One Portapack H4 Mayhem](imgs/image-26.png)
 
