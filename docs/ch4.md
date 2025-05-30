@@ -27,7 +27,7 @@
     * VOX (Voice Operated eXchange): Автоматичний початок передачі голосом без натискання кнопки PTT.
     * CTCSS/DCS (Tone Squelch): Тоновий шумоподавлювач для фільтрації небажаних сигналів і прослуховування лише своєї групи.
 
-![Рація Baofeng](imgs/image-35.png)
+![[Рація Baofeng](https://baofeng-ukraine.com.ua/)](imgs/image-35.png)
 
 Виконання експерименту [Прийом аналогового радіосигналу !](https://www.youtube.com/watch?v=IaThnn2r1no).
 
@@ -102,9 +102,9 @@
 
 ![WebSDR](imgs/image-49.png)
 
-![Антена Double Cross](imgs/image-51.png)
+![[Антена Double Cross](https://www.rtl-sdr.com/instructions-for-building-a-double-cross-antenna-great-for-noaameteor-weather-satellites/)](imgs/image-51.png)
 
-![Погодний супутник NOAA 15](imgs/image-50.png)
+![Погодний супутник [NOAA 15](https://space.skyrocket.de/doc_sdat/noaa-k.htm)](imgs/image-50.png)
 
 Виконання експеременту [Прийом супутникових зображень !](https://www.youtube.com/watch?v=cjClTnZ4Xh4)
 

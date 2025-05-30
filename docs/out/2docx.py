@@ -135,13 +135,21 @@ def replace_links(content: str, links: list) -> str:
     return ''.join(result)
 
 
-
+img_index_dict = {}
+table_index_dict = {}
 # === Парсинг зображень з шириною і вирівнюванням ===
 def replace_images(content: str, file_i: int) -> str:
-    img_index = 0
-    table_index = 0
+    global img_index_dict, table_index_dict
+    # file_i = 1 -> 1, 2.1 -> 2 2.2 -> 2
+    # Витягуємо основний номер розділу з file_i (наприклад, 2.1 -> 2)
+    main_chapter = file_i.split('.')[0]
+    if main_chapter not in img_index_dict:
+        img_index_dict[main_chapter] = 0
+    if main_chapter not in table_index_dict:
+        table_index_dict[main_chapter] = 0
     def replacer(match):
-        nonlocal img_index, table_index
+        global img_index_dict, table_index_dict
+        nonlocal main_chapter
         desc, path = match.groups()
         new_path = script_dir / path
         # OpenXML блок для центрування (перед зображенням)
@@ -153,14 +161,14 @@ def replace_images(content: str, file_i: int) -> str:
             img_width = width_match.group(1) + '.0'
             desc = re.sub(r'\s*w=\d+', '', desc).strip()
         if 'Table:' in desc:
-            table_index += 1
-            img_index -= 1
+            table_index_dict[main_chapter] += 1
+            img_index_dict[main_chapter] -= 1
             desc = desc.split('Table:')[1].strip()
-            desc = f"Табл.{file_i}.{table_index}. {desc}."
-            return f'{TABLE_CAPTION_XML(desc)}<div style="text-align: center;">![]({new_path}){{ width={img_width}cm }}</div>'
+            desc = f"Таблиця {main_chapter}.{table_index_dict[main_chapter]} {desc}."
+            return f'{TABLE_CAPTION_XML(desc)} ![]({new_path}){{ width={img_width}cm }}'
         else:
-            img_index += 1             
-            desc = f"Рис.{file_i}.{img_index}. {desc}."
+            img_index_dict[main_chapter] += 1
+            desc = f"Рис.{main_chapter}.{img_index_dict[main_chapter]} {desc}."
             return f"![{desc}]({new_path}){{ width={img_width}cm }}"
     return re.sub(r"!\[(.*?)\]\((.*?)\)", replacer, content)
 
