@@ -34,7 +34,7 @@ DEBUG = False
 # === Константи для форматування ===
 NEW_PAGE = '```{=openxml}\n<w:p>\n  <w:r>\n    <w:br w:type="page"/>\n  </w:r>\n</w:p>\n```\n\n'
 CENTER_XML = '```{=openxml}\n<w:p><w:pPr><w:jc w:val="center"/></w:pPr></w:p>\n```\n'
-IMG_WIDHT = 8.0
+IMG_WIDHT = 5.0
 
 def TABLE_CAPTION_XML(caption: str) -> str:
     return f'\n```{{=openxml}}\n<w:p>\n  <w:pPr>\n    <w:pStyle w:val="Table Caption"/>\n  </w:pPr>\n  <w:r>\n    <w:t>{caption}</w:t>\n  </w:r>\n</w:p>\n```\n\n'
