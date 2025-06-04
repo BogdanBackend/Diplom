@@ -2,8 +2,25 @@
 
 ---
 
-# __[ЗМІСТ](docs/word/README.md)__
+A1:
+
+* [Збірне креслення](pdf/A1/Assem.pdf)
+* [Бокс креслення](pdf/A1/Box.pdf)
+* [Електрична креслення](pdf/A1/CM5IO.pdf)
+* [Експеремент плакат](pdf/A1/A1_experiment.drawio.pdf)
+* [Плата плакат](pdf/A1/PCB.pdf)
+
+A4:
+
+* [Записка](pdf/doc.pdf)
+* [Захис екрану креслення](pdf/A4/Top.pdf)
+* [Захист роз'ємів креслення](pdf/A4/Cover.pdf)
+* [Специфікація](pdf/A4/Специфікація.pdf)
+* [Звіт плагіату](pdf/A4/Plagiarism.pdf)
+
+---
+
+# __[ЗМІСТ](docs/README.md)__
 
 
-* [PDF проміжковий](<2025 diplom.pdf>)
-* [DOCx проміжковий файл розділів](docs/word/out/doc_dev.docx)
+* [DOCx проміжковий файл розділів](docs/out/doc_dev.docx)
